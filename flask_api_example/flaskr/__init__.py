@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import os
+from flask_cors import CORS
 
 
 def create_app(test_config=None):
@@ -11,6 +12,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite')
     )
 
+    # main route
     @app.route('/')
     def hello():
         return jsonify({'message': 'Hello'})
@@ -19,6 +21,7 @@ def create_app(test_config=None):
     def smile():
         return jsonify({'message': 'Smile'})
 
+    
     @app.route('/entrees/<int:entree_id>')
     def retrieve_entree(entree_id):
         return 'Entree %d' % entree_id
@@ -29,5 +32,8 @@ def create_app(test_config=None):
             return create_greeting()
         else:
             return send_greeting()
+
+    def send_greeting():
+        return jsonify({'message':'hello','status':'sucess','method':'get'})
 
     return app
